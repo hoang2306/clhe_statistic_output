@@ -112,7 +112,7 @@ class BundleTestDataset(Dataset):
         self.bundles_map = np.argwhere(self.b_i_graph_i.sum(axis=1) > 0)[
             :, 0].reshape(-1)
 
-        a = self.self.b_i_graph_i
+        a = self.b_i_graph_i
         print(f'{a.sum(axis=1)[4]}')
         print(f'{self.b_i_graph_i.sum(axis=1)}')
         print(f'{np.argwhere(self.b_i_graph_i.sum(axis=1) > 0)}')
