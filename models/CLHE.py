@@ -316,7 +316,7 @@ class CLHE(nn.Module):
     def evaluate(self, _, batch):
         idx, x, seq_x = batch
         mask = seq_x == self.num_item
-        feat_bundle_view = self.encoder(seq_x)
+        feat_bundle_view = self.encoder(seq_x) 
 
         bundle_feature = self.bundle_encode(feat_bundle_view, mask=mask)
 
