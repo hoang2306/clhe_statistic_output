@@ -368,6 +368,12 @@ def get_metrics(metrics, grd, pred, topks):
         """
         print(f'row indice: {row_indice}')
         is_hit = grd[row_indice.view(-1), col_indice.view(-1)].view(-1, topk)
+        """
+        a = torch.arange(1,7).view(2,3)
+        print(a)
+        a[[1,0], [2,2]] (a[1][2] = 6, a[0][2] = 3)
+        -> tensor([6, 3])
+        """
 
         tmp["recall"][topk] = get_recall(pred, grd, is_hit, topk)
         tmp["ndcg"][topk] = get_ndcg(pred, grd, is_hit, topk)
@@ -382,11 +388,14 @@ def get_metrics(metrics, grd, pred, topks):
 
 def get_recall(pred, grd, is_hit, topk):
     epsilon = 1e-8
-    hit_cnt = is_hit.sum(dim=1)
-    num_pos = grd.sum(dim=1)
+    hit_cnt = is_hit.sum(dim=1) # count num item predicted correctly
+    print(f'hit cnt shape: {hit_cnt}')
+    num_pos = grd.sum(dim=1) # count num item in gt 
+    print(f'num pos shape: {num_pos.shape}')
 
-    denorm = pred.shape[0] - (num_pos == 0).sum().item()
-    nomina = (hit_cnt/(num_pos+epsilon)).sum().item()
+    denorm = pred.shape[0] - (num_pos == 0).sum().item() # count num positive bundle (bundle has >0 item in gt)
+    nomina = (hit_cnt/(num_pos+epsilon)).sum().item() # so item du doan dung / tong so item trong gt 
+    # cong epsilon=1e-8 la de counter zero division
 
     return [nomina, denorm]
 
