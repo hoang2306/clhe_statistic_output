@@ -133,8 +133,8 @@ class BundleTestDataset(Dataset):
         b_i_i = torch.from_numpy(
             self.b_i_graph_i[graph_index].toarray()).squeeze()
         
-        print(f'bi graph i: { self.b_i_graph_i[graph_index].toarray()}')
-        print(f'bi input: {b_i_i}')
+        # print(f'bi graph i: { self.b_i_graph_i[graph_index].toarray()}')
+        # print(f'bi input: {b_i_i}')
 
         b_i_gt = torch.from_numpy(
             self.b_i_graph_gt[graph_index].toarray()).squeeze()
