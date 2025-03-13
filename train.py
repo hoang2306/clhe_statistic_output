@@ -403,10 +403,16 @@ def get_ndcg(pred, grd, is_hit, topk):
     idcg = IDCGs[num_pos]
     ndcg = dcg/idcg.to(device)
 
-    denorm = pred.shape[0] - (num_pos == 0).sum().item()
-    nomina = ndcg.sum().item()
 
-    return [nomina, denorm]
+    # pred.shape[0]: n_bundle
+    # num_pos: if = 0: non-positive item in each element
+    # (num_pos == 0).sum().item(): calculate num item 
+    denorm = pred.shape[0] - (num_pos == 0).sum().item()
+    nomina = ndcg.sum().item() # sum ndcg 
+
+    # ndcg: sum ndcg in all bundle / num bundle 
+
+    return [nomina, denorm] # 
 
 
 if __name__ == "__main__":
