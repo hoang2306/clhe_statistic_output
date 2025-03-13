@@ -356,9 +356,17 @@ def get_metrics(metrics, grd, pred, topks):
         _, col_indice = torch.topk(pred, topk)
         print(f'col indice: {col_indice.shape}')
         # pred.shape[0]: num_bundle -> view(-1,1): shape (num_bundle, 1)
-        # col_indice: num_bundle
+        # col_indice: [num_bundle_in_one_bs, topk]
         row_indice = torch.zeros_like(col_indice) + torch.arange(
             pred.shape[0], device=pred.device, dtype=torch.long).view(-1, 1) 
+        """
+        row indice: 
+        [[0, 0, 0],
+        [1, 1, 1],
+        [2, 2, 2],
+        [3, 3, 3]]
+        """
+        print(f'row indice: {row_indice}')
         is_hit = grd[row_indice.view(-1), col_indice.view(-1)].view(-1, topk)
 
         tmp["recall"][topk] = get_recall(pred, grd, is_hit, topk)
