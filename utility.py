@@ -251,6 +251,7 @@ class Datasets():
         b_i_pairs_gt = list2pairs(os.path.join(
             self.path, self.name, f'bi_{task}_gt.txt'))
         
+        print(f'bi pairs gt: {b_i_pairs_gt}')
         print(f'bi pairs input: {b_i_pairs_i}')
 
         b_i_graph_i = pairs2csr(
