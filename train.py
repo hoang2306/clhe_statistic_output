@@ -388,10 +388,11 @@ def get_metrics(metrics, grd, pred, topks):
 
 def get_recall(pred, grd, is_hit, topk):
     epsilon = 1e-8
-    hit_cnt = is_hit.sum(dim=1) # count num item predicted correctly
-    print(f'hit cnt shape: {hit_cnt}')
+    hit_cnt = is_hit.sum(dim=1) # count num item predicted correctly 
+    # print(f'hit cnt shape: {hit_cnt}') # [bs]
     num_pos = grd.sum(dim=1) # count num item in gt 
-    print(f'num pos shape: {num_pos.shape}')
+    # print(f'num pos shape: {num_pos.shape}') # [bs]
+    print(f'num pos == 0: {(num_pos==0).sum().item()}')
 
     denorm = pred.shape[0] - (num_pos == 0).sum().item() # count num positive bundle (bundle has >0 item in gt)
     nomina = (hit_cnt/(num_pos+epsilon)).sum().item() # so item du doan dung / tong so item trong gt 
