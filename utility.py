@@ -112,11 +112,11 @@ class BundleTestDataset(Dataset):
         self.bundles_map = np.argwhere(self.b_i_graph_i.sum(axis=1) > 0)[
             :, 0].reshape(-1)
 
-        a = self.b_i_graph_i
-        print(f'{a.sum(axis=1)[4]}')
-        print(f'{self.b_i_graph_i.sum(axis=1)}')
-        print(f'{np.argwhere(self.b_i_graph_i.sum(axis=1) > 0)}')
-        print(f'bundle map: {self.bundles_map}')
+        # a = self.b_i_graph_i
+        # print(f'{a.sum(axis=1)[4]}')
+        # print(f'{self.b_i_graph_i.sum(axis=1)}')
+        # print(f'{np.argwhere(self.b_i_graph_i.sum(axis=1) > 0)}')
+        # print(f'bundle map: {self.bundles_map}')
         self.b_i_pairs_gt = b_i_pairs_gt
         self.b_i_graph_gt = b_i_graph_gt
 
@@ -132,6 +132,9 @@ class BundleTestDataset(Dataset):
         graph_index = self.bundles_map[index]
         b_i_i = torch.from_numpy(
             self.b_i_graph_i[graph_index].toarray()).squeeze()
+        print(f'bi graph i: { self.b_i_graph_i[graph_index].toarray()}')
+        print(f'bi input: {b_i_i}')
+
         b_i_gt = torch.from_numpy(
             self.b_i_graph_gt[graph_index].toarray()).squeeze()
 
@@ -251,8 +254,8 @@ class Datasets():
         b_i_pairs_gt = list2pairs(os.path.join(
             self.path, self.name, f'bi_{task}_gt.txt'))
         
-        print(f'bi pairs gt: {b_i_pairs_gt}')
-        print(f'bi pairs input: {b_i_pairs_i}')
+        # print(f'bi pairs gt: {b_i_pairs_gt}')
+        # print(f'bi pairs input: {b_i_pairs_i}')
 
         b_i_graph_i = pairs2csr(
             b_i_pairs_i, (self.num_bundles, self.num_items))
