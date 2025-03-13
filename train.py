@@ -402,6 +402,9 @@ def get_recall(pred, grd, is_hit, topk):
 
 
 def get_ndcg(pred, grd, is_hit, topk):
+
+    # is_hit: [bs, topk]
+
     def DCG(hit, topk, device):
         hit = hit/torch.log2(torch.arange(2, topk+2,
                              device=device, dtype=torch.float))
@@ -413,17 +416,18 @@ def get_ndcg(pred, grd, is_hit, topk):
         return DCG(hit, topk, device)
 
     device = grd.device
-    IDCGs = torch.empty(1+topk, dtype=torch.float).to(device)
+    IDCGs = torch.empty(1+topk, dtype=torch.float).to(device) 
     IDCGs[0] = 1 
     for i in range(1, topk+1):
         IDCGs[i] = IDCG(i, topk, device)
 
-    num_pos = grd.sum(dim=1).clamp(0, topk).to(torch.long)
-    dcg = DCG(is_hit, topk, device)
+    # num_pos: tại sao phải clamp: vì tính sum trên gt có thể 1 hàng có 6 item match, nma lấy topk=5
+    num_pos = grd.sum(dim=1).clamp(0, topk).to(torch.long) # shape [bs]
+    dcg = DCG(is_hit, topk, device) # [bs]    
 
+    # IDCGs[i]: tính IDCG với số item match là i 
     idcg = IDCGs[num_pos]
     ndcg = dcg/idcg.to(device)
-
 
     # pred.shape[0]: n_bundle
     # num_pos: if = 0: non-positive item in each element
