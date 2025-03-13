@@ -354,7 +354,7 @@ def get_metrics(metrics, grd, pred, topks):
     tmp = {"recall": {}, "ndcg": {}}
     for topk in topks:
         _, col_indice = torch.topk(pred, topk)
-        print(f'col indice: {col_indice.shape}')
+        print(f'col indice: {col_indice}')
         # pred.shape[0]: num_bundle -> view(-1,1): shape (num_bundle, 1)
         # col_indice: [num_bundle_in_one_bs, topk]
         row_indice = torch.zeros_like(col_indice) + torch.arange(
