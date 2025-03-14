@@ -7,6 +7,8 @@ import torch
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
 
+import sys 
+
 
 class BundleTrainDataset(Dataset):
     def __init__(self, conf, b_i_pairs, b_i_graph, features, num_bundles, b_i_for_neg_sample, b_b_for_neg_sample, neg_sample=1):
@@ -44,7 +46,9 @@ class BundleTrainDataset(Dataset):
         # multi-hot
         modify = torch.zeros_like(full) 
         indices = torch.argwhere(full)[:, 0]
-        print(f'indices: {indices}')
+
+        print(f'indices: {torch.argwhere(full)}')
+        sys.exit(0)
 
         # shuffle >>>
         num_items = indices.shape[0]
