@@ -39,11 +39,12 @@ class BundleTrainDataset(Dataset):
     def __getitem__(self, index):
 
         full = torch.from_numpy(
-            self.b_i_graph[self.bundles_map[index]].toarray()).squeeze()
+            self.b_i_graph[self.bundles_map[index]].toarray()).squeeze() # multi-hot vector 
 
         # multi-hot
-        modify = torch.zeros_like(full)
+        modify = torch.zeros_like(full) 
         indices = torch.argwhere(full)[:, 0]
+        print(f'indices: {indices}')
 
         # shuffle >>>
         num_items = indices.shape[0]
